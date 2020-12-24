@@ -7,7 +7,8 @@ let app = new Vue({
   data: {
     isSignedIn: false,
     devices: [],
-    panel: 'devices'
+    panel: 'devices',
+    logging: true
   }
 });
 
@@ -60,12 +61,19 @@ function openDevice(device) {
   app.panel = 'console';
   app.connectedDevice = device;
   firebase.database().ref('/').off();
-  firebase.database().ref(`connections/${device}/responses/`).on('child_added', (snap) => {
-    if (snap.val()) {
-      const log = document.querySelector('#log');
-      log.innerHTML += snap.val().replace(/\n/g, '<br>') + '<hr>';
-      log.scrollBy(0, 99999);
-    }
+  const log = document.querySelector('#log');
+  firebase.database().ref(`connections/${device}/responses/`).on('child_added', (_snap) => {
+    window.setTimeout(() => {
+      firebase.database().ref(`connections/${device}/responses`).once('value', (snap) => {
+        console.log(snap.val())
+        log.innerHTML = "";
+        const keys = Object.keys(snap.val());
+        for (let i = 0; i < keys.length; i++) {
+          log.innerHTML += snap.val()[keys[i]].replace(/>/g, '&gt;').replace(/</g, '&lt;') + '<hr>';
+          log.scrollBy(0, 99999);
+        }
+      });
+    }, 500);
   });
 }
 
