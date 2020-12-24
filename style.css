@@ -24,9 +24,6 @@ pre {
 }
 
 #console-input {
-  position: fixed;
-  bottom: 3px;
-  left: 3px;
   height: 20px;
   width: calc(100vw - 30px);
 }
