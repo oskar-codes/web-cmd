@@ -19,6 +19,7 @@ input::placeholder {
 }
 
 pre {
+  color: white;
   font-family: monospace;
 }
 
