@@ -1,0 +1,39 @@
+body, html {
+  margin: 0;
+  background-color: black;
+  color: white;
+  font-family: sans-serif;
+}
+
+button, input {
+  border: none;
+  padding: 7px;
+  border-radius: 7px;
+  margin: 5px;
+}
+
+input::placeholder {
+  color: grey;
+}
+
+pre {
+  font-family: monospace;
+}
+
+#console-input {
+  position: fixed;
+  bottom: 3px;
+  left: 3px;
+  height: 20px;
+  width: calc(100vw - 30px);
+}
+
+#log {
+  height: calc(100vh - 70px);
+  width: 100vw;
+  overflow: scroll;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web CMD</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    
+
+    <div id="app">
+      <div id="login-panel" v-show="!isSignedIn">
+        <input type="text" placeholder="Username">
+        <input type="text" placeholder="Password">
+        <button onclick="login();">Login</button>
+      </div>
+      <div v-show="!!isSignedIn">
+        <div id="devices" v-show="panel === 'devices'">
+          <button v-for="device in devices" @click="openDevice(device)">{{device}}</button>
+          <button onclick="updateDevices();">Update devices</button>
+        </div>
+        
+        <div id="console" v-show="panel === 'console'">
+          <pre id="log">
+            
+          </pre>
+          <input id="console-input" type="text">
+        </div>
+      </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-analytics.js"></script>
+    <script>
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      var firebaseConfig = {
+        apiKey: "AIzaSyBCTY3cw-p2gN2n_GAxbD3bdjOMFWxnUMM",
+        authDomain: "web-cmd-6f37d.firebaseapp.com",
+        databaseURL: "https://web-cmd-6f37d-default-rtdb.firebaseio.com",
+        projectId: "web-cmd-6f37d",
+        storageBucket: "web-cmd-6f37d.appspot.com",
+        messagingSenderId: "814146939124",
+        appId: "1:814146939124:web:fe37f336a7f6adf4a596a1",
+        measurementId: "G-W14CYJ1731"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+    </script>
+    <script src="app.js"></script>
+  </body>
+</html>
