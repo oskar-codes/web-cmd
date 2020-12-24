@@ -10,6 +10,8 @@ button, input {
   padding: 7px;
   border-radius: 7px;
   margin: 5px;
+  background-color: white;
+  color: black;
 }
 
 input::placeholder {
