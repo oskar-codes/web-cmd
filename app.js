@@ -123,3 +123,33 @@ consoleInput.addEventListener('keyup' , (e) => {
 });
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
+
+function getFiles() {
+  app.panel = 'files';
+}
+
+function getConfigFile() {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', 'web-cmd-6f37d-firebase-adminsdk-5w96v-4aea46034e.json');
+  xhr.addEventListener('load', (e) => {
+    const response = JSON.parse(xhr.responseText);
+    response.user_id = usr().uid;
+
+    const blob = new Blob([JSON.stringify(response)], {type : 'application/json'});
+
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'web-cmd-6f37d-firebase-adminsdk-5w96v-4aea46034e.json';
+
+    a.click();
+  });
+  xhr.send();
+}
+
+function getExecutable() {
+  const a = document.createElement('a');
+  a.href = 'executable.exe';
+  a.download = 'executable.exe';
+
+  a.click();
+}
