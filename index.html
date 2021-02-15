@@ -11,14 +11,26 @@
 
     <div id="app">
       <div id="login-panel" v-show="!isSignedIn">
-        <input type="text" placeholder="Username">
-        <input type="text" placeholder="Password">
-        <button onclick="login();">Login</button>
+        <h1>Web CMD</h1>
+        <div class="login">
+          <input type="text" placeholder="Email">
+          <input type="text" placeholder="Password">
+          <button onclick="login();">Login</button>
+        </div>
+        <div class="signup">
+          <input type="text" placeholder="Email">
+          <input type="text" placeholder="Password">
+          <button onclick="signup();">Sign Up</button>
+        </div>
       </div>
-      <div v-show="!!isSignedIn">
+      <div v-show="!!isSignedIn" class="dashboard">
         <div id="devices" v-show="panel === 'devices'">
-          <button v-for="device in devices" @click="openDevice(device)">{{device}}</button>
+          <p>Logged in as {{email}}</p>
+          <!-- <button onclick="getFiles()">Get Files</button> -->
+          <button onclick="firebase.auth().signOut(); app.devices = [];">Sign out</button>
           <button onclick="updateDevices();">Update devices</button>
+          <div class="device" v-for="device in devices" @click="openDevice(device)">{{device}}</div>
+          <p v-if="devices.length === 0">No devices</p>
         </div>
         
         <div id="console" v-show="panel === 'console'">
