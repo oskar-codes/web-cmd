@@ -26,7 +26,7 @@
       <div v-show="!!isSignedIn" class="dashboard">
         <div id="devices" v-show="panel === 'devices'">
           <p>Logged in as {{email}}</p>
-          <!-- <button onclick="getFiles()">Get Files</button> -->
+          <button onclick="getFiles()">Get Files</button>
           <button onclick="firebase.auth().signOut(); app.devices = [];">Sign out</button>
           <button onclick="updateDevices();">Update devices</button>
           <div class="device" v-for="device in devices" @click="openDevice(device)">{{device}}</div>
@@ -36,6 +36,13 @@
         <div id="console" v-show="panel === 'console'">
           <pre id="log"></pre>
           <input id="console-input" type="text">
+        </div>
+
+        <div v-show="panel === 'files'">
+          <p>You will need both of the following files in the same directory.</p>
+          <button onclick="getConfigFile()">Get Config File</button>
+          <button onclick="getExecutable()">Get Executable</button><br>
+          <button onclick="app.panel = 'devices'">Back</button>
         </div>
       </div>
     </div>
