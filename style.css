@@ -1,8 +1,16 @@
+* {
+  font-family: monospace;
+  box-sizing: border-box;
+}
+
 body, html {
   margin: 0;
-  background-color: black;
+  background-color: #52656f;
   color: white;
-  font-family: sans-serif;
+}
+
+button {
+  cursor: pointer;
 }
 
 button, input {
@@ -14,6 +22,10 @@ button, input {
   color: black;
 }
 
+button:focus, input:focus {
+  outline: none;
+}
+
 input::placeholder {
   color: grey;
 }
@@ -23,17 +35,85 @@ pre {
   font-family: monospace;
 }
 
+#console {
+  height: 100%;
+  overflow: hidden;
+}
+
 #console-input {
   height: 20px;
-  width: calc(100vw - 30px);
+  width: 100%;
 }
 
 #log {
-  height: calc(100vh - 70px);
-  width: 100vw;
+  height: calc(100% - 70px);
+  width: 100%;
   overflow: scroll;
+  text-align: left;
 }
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+.system {
+  color: rgb(156, 156, 156);
+  font-style: italic;
+}
+
+#login-panel {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) translateY(-50px);
+  width: 100vw;
+  text-align: center;
+}
+
+#login-panel h1 {
+  font-size: 60px;
+}
+
+#login-panel div {
+  background-color: darkblue;
+  padding: 50px;
+  border-radius: 50px;
+  background: #52656f;
+  box-shadow:  20px 20px 60px #46565e, 
+              -20px -20px 60px #5e7480;
+  width: 350px;
+  display: inline-block;
+  margin: 50px;
+
+}
+
+#login-panel div * {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.dashboard {
+  border-radius: 50px;
+  background: #52656f;
+  box-shadow:  20px 20px 60px #46565e, 
+              -20px -20px 60px #5e7480;
+  padding: 50px;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  text-align: center;
+  overflow: scroll;
+  height: 300px;
+  transition: height 0.3s ease;
+}
+
+.device {
+  cursor: pointer;
+  background-color: white;
+  border-radius: 50px;
+  margin: 20px auto;
+  color: black;
+  width: fit-content;
+  padding: 10px;
 }
