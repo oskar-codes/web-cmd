@@ -1,90 +1,68 @@
-window.addEventListener('beforeunload', (e) => {
-  e.preventDefault();
-})
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web CMD</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    
 
-let app = new Vue({
-  el: '#app',
-  data: {
-    isSignedIn: false,
-    devices: [],
-    panel: 'devices',
-    logging: true
-  }
-});
+    <div id="app">
+      <div id="login-panel" v-show="!isSignedIn">
+        <h1>Web CMD</h1>
+        <div class="login">
+          <input type="text" placeholder="Email">
+          <input type="text" placeholder="Password">
+          <button onclick="login();">Login</button>
+        </div>
+        <div class="signup">
+          <input type="text" placeholder="Email">
+          <input type="text" placeholder="Password">
+          <button onclick="signup();">Sign Up</button>
+        </div>
+      </div>
+      <div v-show="!!isSignedIn" class="dashboard">
+        <div id="devices" v-show="panel === 'devices'">
+          <p>Logged in as {{email}}</p>
+          <!-- <button onclick="getFiles()">Get Files</button> -->
+          <button onclick="firebase.auth().signOut(); app.devices = [];">Sign out</button>
+          <button onclick="updateDevices();">Update devices</button>
+          <div class="device" v-for="device in devices" @click="openDevice(device)">{{device}}</div>
+          <p v-if="devices.length === 0">No devices</p>
+        </div>
+        
+        <div id="console" v-show="panel === 'console'">
+          <pre id="log"></pre>
+          <input id="console-input" type="text">
+        </div>
+      </div>
+    </div>
 
-firebase.auth().onAuthStateChanged(user => { // auto login
-  if (user) {
-    app.isSignedIn = true;
-  } else {
-    app.isSignedIn = false;
-  }
-});
 
-function login() {
-  const email = document.querySelectorAll('input')[0].value;
-  const password = document.querySelectorAll('input')[1].value;
-  firebase.auth().signInWithEmailAndPassword(email, password)
-    .then((user) => {
-      
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
-
-async function updateDevices() {
-
-  app.devices = [];
-
-  let ref = firebase.database().ref('ping').push();
-  let key = ref.key;
-  ref.set({
-    type: 'device_query'
-  }).then((snap) => {
-    firebase.database().ref(`ping/${key}/responses`).on('value', (snap) => {
-      if (snap.val()) {
-        const name = Object.values(snap.val())[0];
-        if (name.trim()) {
-          app.devices.push(name);
-        }
-      }
-    });
-  });
-
-  await delay(5e3);
-
-  firebase.database().ref('ping').set({});
-  firebase.database().ref('/').off();
-}
-
-function openDevice(device) {
-  app.panel = 'console';
-  app.connectedDevice = device;
-  firebase.database().ref('/').off();
-  const log = document.querySelector('#log');
-  firebase.database().ref(`connections/${device}/responses/`).on('child_added', (_snap) => {
-    window.setTimeout(() => {
-      firebase.database().ref(`connections/${device}/responses`).once('value', (snap) => {
-        console.log(snap.val())
-        log.innerHTML = "";
-        const keys = Object.keys(snap.val());
-        for (let i = 0; i < keys.length; i++) {
-          log.innerHTML += snap.val()[keys[i]].replace(/>/g, '&gt;').replace(/</g, '&lt;') + '<hr>';
-          log.scrollBy(0, 99999);
-        }
-      });
-    }, 500);
-  });
-}
-
-const consoleInput = document.querySelector('#console-input');
-consoleInput.addEventListener('keyup' , (e) => {
-  if (e.key === 'Enter') {
-    console.log('sending...');
-    const command = consoleInput.value;
-    const ref = firebase.database().ref(`connections/${app.connectedDevice}/commands/`).push();
-    ref.set(command);
-  }
-});
-
-const delay = ms => new Promise(res => setTimeout(res, ms));
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-analytics.js"></script>
+    <script>
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      var firebaseConfig = {
+        apiKey: "AIzaSyBCTY3cw-p2gN2n_GAxbD3bdjOMFWxnUMM",
+        authDomain: "web-cmd-6f37d.firebaseapp.com",
+        databaseURL: "https://web-cmd-6f37d-default-rtdb.firebaseio.com",
+        projectId: "web-cmd-6f37d",
+        storageBucket: "web-cmd-6f37d.appspot.com",
+        messagingSenderId: "814146939124",
+        appId: "1:814146939124:web:fe37f336a7f6adf4a596a1",
+        measurementId: "G-W14CYJ1731"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+    </script>
+    <script src="app.js"></script>
+  </body>
+</html>
