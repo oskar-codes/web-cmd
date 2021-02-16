@@ -75,7 +75,7 @@ function openDevice(device) {
   firebase.database().ref('/').off();
   const log = document.querySelector('#log');
   const dashboard = document.querySelector('.dashboard');
-  dashboard.style.height = '800px';
+  dashboard.style.height = '80vh';
   firebase.database().ref(`connections/${usr().uid}/${device}/responses/`).on('child_added', (_snap) => {
     window.setTimeout(() => {
       firebase.database().ref(`connections/${usr().uid}/${device}/responses`).once('value', (snap) => {
