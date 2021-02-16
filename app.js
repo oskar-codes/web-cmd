@@ -63,7 +63,7 @@ async function updateDevices() {
     });
   });
 
-  await delay(9999e3);
+  await delay(6e3);
 
   firebase.database().ref(`ping/${usr().uid}`).set({});
   firebase.database().ref('/').off();
